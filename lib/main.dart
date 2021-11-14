@@ -43,7 +43,24 @@ class _MyAppState extends State<MyApp> {
                 //itemBuilder es un constructor de items
                 //por cada llamado del builder (constructor) varia el index , index seria el tipico i en un for
                 itemBuilder: (context, index) {
-                  return Text(_personas[index].nombre);
+                  //un ListTile es un elemento de lista y trae propiedades para listas
+                  return ListTile(
+                    //ontap propiedad para hacer algo al pasar por un elemento
+                    //onlongpress para hacer algo manteniendo presionado sobre el elemento
+                    onLongPress: () {
+                      print(_personas[index].nombre);
+                    },
+                    title: Text(_personas[index].nombre +
+                        " " +
+                        _personas[index].apellido),
+                    subtitle: Text(_personas[index].telefono),
+                    //leading para colocar un icono asociado a los items de la la lista al principio
+                    leading: CircleAvatar(
+                      child: Text(_personas[index].nombre.substring(0, 1)),
+                    ),
+                    //el trailing es como el leading pero al final
+                    trailing: Icon(Icons.arrow_forward_ios),
+                  );
                 })),
       ),
     );
