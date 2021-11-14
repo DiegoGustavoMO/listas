@@ -27,10 +27,12 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      //Para quitar el banner de debug usamos debugshow..
+      debugShowCheckedModeBanner: false,
       title: "Material App",
       home: Scaffold(
         appBar: AppBar(
-          title: Text("Material App Bar"),
+          title: Text("Lista"),
         ),
         body: Center(
             //cuando representamos listas apartir de una variable
@@ -48,7 +50,7 @@ class _MyAppState extends State<MyApp> {
                     //ontap propiedad para hacer algo al pasar por un elemento
                     //onlongpress para hacer algo manteniendo presionado sobre el elemento
                     onLongPress: () {
-                      print(_personas[index].nombre);
+                      this._borrarPersona(context, _personas[index]);
                     },
                     title: Text(_personas[index].nombre +
                         " " +
@@ -64,6 +66,41 @@ class _MyAppState extends State<MyApp> {
                 })),
       ),
     );
+  }
+
+//al definir Persona persona solo funciona si _borrarPersona recibe una instancia de Persona
+  _borrarPersona(context, Persona persona) {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: Text("Eliminar contacto"),
+              content: Text(
+                  "Esta seguro de querer eliminar a " + persona.nombre + "?"),
+              actions: [
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        textStyle: const TextStyle(fontSize: 20)),
+                    onPressed: () {
+                      Navigator.pop(context);
+                      print("oprimio cancelar");
+                    },
+                    child: Text("Cancelar")),
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        textStyle: const TextStyle(fontSize: 20)),
+                    onPressed: () {
+                      //this.setState(){};
+
+                      print("oprimio borrar");
+                      print(persona.nombre);
+                      //este this._personas hacer referencia a la lista
+                      //y de ahi con remove quitamos la persona que se Recibe(),
+                      this._personas.remove(persona);
+                      Navigator.pop(context);
+                    },
+                    child: Text("Borrar"))
+              ],
+            ));
   }
 }
 
@@ -81,3 +118,5 @@ class Persona {
     this.telefono = telefono;
   }
 }
+
+//para refrescar se necesita un widget que se llama RefreshIndicator pero necesita un future
